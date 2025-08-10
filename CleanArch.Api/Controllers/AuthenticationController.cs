@@ -3,13 +3,14 @@ using AutoMapper;
 using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Contracts.Authentication;
 
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : ApiController
 {
     private readonly IAuthenticationService _authenticationService;
     private readonly IMapper _mapper;
@@ -25,9 +26,10 @@ public class AuthenticationController : ControllerBase
     {
         var result = await _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
-        var response = _mapper.Map<AuthenticationResponse>(result);
-
-        return Ok(response);
+        return result.Match(
+            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+            errors => Problem(errors)
+        );
     }
 
     [HttpPost("login")]
@@ -35,8 +37,9 @@ public class AuthenticationController : ControllerBase
     {
         var result = await _authenticationService.Login(request.Email, request.Password);
 
-        var response = _mapper.Map<AuthenticationResponse>(result);
-
-        return Ok(response);
+        return result.Match(
+            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
+            errors => Problem(errors)
+        );
     }
 }

@@ -4,8 +4,11 @@ using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Application.Authentication.Dtos;
 using CleanArch.Application.Common.Abstractions;
 using CleanArch.Application.Common.Errors;
+using CleanArch.Domain.Common.Errors;
 using CleanArch.Domain.Entities;
 using CleanArch.Domain.Persistence;
+
+using ErrorOr;
 
 namespace CleanArch.Application.Authentication.Services;
 
@@ -23,12 +26,12 @@ public class AuthenticationService : IAuthenticationService
         _mapper = mapper;
     }
 
-    public async Task<AuthenticationResult> Register(string firstName, string lastName, string email, string password)
+    public async Task<ErrorOr<AuthenticationResult>> Register(string firstName, string lastName, string email, string password)
     {
         // 1. Check if user already exists
         if (await _userRepository.GetUserByEmail(email) is not null)
         {
-            throw new DuplicateEmailException(email);
+            return Errors.User.DuplicateEmail;
         }
 
         // 2. Create user (generate unique ID) && Persists to DB
@@ -52,18 +55,18 @@ public class AuthenticationService : IAuthenticationService
         );
     }
 
-    public async Task<AuthenticationResult> Login(string email, string password)
+    public async Task<ErrorOr<AuthenticationResult>> Login(string email, string password)
     {
         // 1. Validate the user exists
         if (await _userRepository.GetUserByEmail(email) is not User user)
         {
-            throw new Exception("User with given email does not exist.");
+            return Errors.Authentication.InvalidCredentials;
         }
 
         // 2. Validate the password is correct
         if (user.Password != password)
         {
-            throw new Exception("Invalid password.");
+            return Errors.Authentication.InvalidCredentials;
         }
 
         var userDto = _mapper.Map<UserDto>(user);
