@@ -1,3 +1,5 @@
+using CleanArch.Application.Common.Errors;
+
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +12,15 @@ public class ErrorController : ControllerBase
     {
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>()?.Error;
 
+        var (statusCode, message) = exception switch
+        {
+            IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
+            _ => (StatusCodes.Status500InternalServerError, "An unexpected error occurred.")
+        };
+
         return Problem(
-            title: exception?.Message,
-            statusCode: 400
+            statusCode: statusCode,
+            detail: message
         );
     }
 }

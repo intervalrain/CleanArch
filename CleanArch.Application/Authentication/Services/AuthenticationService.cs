@@ -3,6 +3,7 @@ using AutoMapper;
 using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Application.Authentication.Dtos;
 using CleanArch.Application.Common.Abstractions;
+using CleanArch.Application.Common.Errors;
 using CleanArch.Domain.Entities;
 using CleanArch.Domain.Persistence;
 
@@ -27,7 +28,7 @@ public class AuthenticationService : IAuthenticationService
         // 1. Check if user already exists
         if (await _userRepository.GetUserByEmail(email) is not null)
         {
-            throw new Exception("User with given email already exists.");
+            throw new DuplicateEmailException(email);
         }
 
         // 2. Create user (generate unique ID) && Persists to DB

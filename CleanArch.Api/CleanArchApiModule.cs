@@ -1,4 +1,4 @@
-using CleanArch.Api.Errors;
+using CleanArch.Api.Common.Errors;
 using CleanArch.Api.Mappings;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;

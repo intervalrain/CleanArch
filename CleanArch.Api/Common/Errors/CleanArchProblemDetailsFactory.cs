@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace CleanArch.Api.Errors;
+namespace CleanArch.Api.Common.Errors;
 
 public class CleanArchProblemDetailsFactory : ProblemDetailsFactory
 {
