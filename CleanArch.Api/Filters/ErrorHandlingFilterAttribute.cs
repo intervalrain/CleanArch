@@ -10,14 +10,16 @@ public class ErrorHandlingFilterAttribute : ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         var exception = context.Exception;
-        var code = HttpStatusCode.InternalServerError;
 
-        context.Result = new ObjectResult(new 
+        var problemDetails = new ProblemDetails
         {
-            code = code,
-            error = "An unexpected error occurred.",
-            message = exception.Message
-        });
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+            Title = "An unexpected error occurred.",
+            Status = (int)HttpStatusCode.InternalServerError,
+            Detail = exception.Message
+        };
+
+        context.Result = new ObjectResult(problemDetails);
 
         context.ExceptionHandled = true;
     }
