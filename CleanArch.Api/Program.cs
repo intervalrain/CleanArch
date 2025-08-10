@@ -1,4 +1,5 @@
 using CleanArch.Api;
+using CleanArch.Api.Filters;
 using CleanArch.Api.Middleware;
 using CleanArch.Application;
 using CleanArch.Infrastructure;
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApi();
-    builder.Services.AddControllers();
+    // builder.Services.AddControllers();
+    builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
 
     // register swagger services
     builder.Services.AddEndpointsApiExplorer();
@@ -17,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    app.UseMiddleware<ErrorHandlingMiddleware>();
+    // app.UseMiddleware<ErrorHandlingMiddleware>();
 
     if (app.Environment.IsDevelopment())
     {
