@@ -5,11 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\CleanArch.Contracts\CleanArch.Contracts.csproj" />
     <ProjectReference Include="..\CleanArch.Application\CleanArch.Application.csproj" />
