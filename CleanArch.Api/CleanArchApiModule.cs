@@ -1,4 +1,5 @@
 using CleanArch.Api.Mappings;
+using CleanArch.Api.Middleware;
 
 namespace CleanArch.Api;
 
@@ -9,6 +10,7 @@ public static class CleanArchApiModule
         services.AddAutoMapper(cfg => {
             cfg.AddProfile<AuthMappingProfile>();
         });
+        services.AddScoped<ErrorHandlingMiddleware>();
 
         return services;
     }

@@ -1,4 +1,5 @@
 using CleanArch.Api;
+using CleanArch.Api.Middleware;
 using CleanArch.Application;
 using CleanArch.Infrastructure;
 
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
