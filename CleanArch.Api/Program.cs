@@ -9,8 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApi();
-    // builder.Services.AddControllers();
-    builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
+    builder.Services.AddControllers();
 
     // register swagger services
     builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +30,7 @@ var app = builder.Build();
         });
     }
 
+    app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();
     app.MapControllers();
     app.Run();
