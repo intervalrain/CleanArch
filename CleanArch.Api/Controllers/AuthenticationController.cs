@@ -1,3 +1,5 @@
+using AutoMapper;
+
 using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Contracts.Authentication;
 
@@ -10,10 +12,12 @@ namespace CleanArch.Api.Controllers;
 public class AuthenticationController : ControllerBase
 {
     private readonly IAuthenticationService _authenticationService;
+    private readonly IMapper _mapper;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(IAuthenticationService authenticationService, IMapper mapper)
     {
         _authenticationService = authenticationService;
+        _mapper = mapper;
     }
 
     [HttpPost("register")]
@@ -21,13 +25,7 @@ public class AuthenticationController : ControllerBase
     {
         var result = await _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
-        var response = new AuthenticationResponse(
-            result.User.Id,
-            result.User.FirstName,
-            result.User.LastName,
-            result.User.Email,
-            result.Token
-        );
+        var response = _mapper.Map<AuthenticationResponse>(result);
 
         return Ok(response);
     }
@@ -37,13 +35,7 @@ public class AuthenticationController : ControllerBase
     {
         var result = await _authenticationService.Login(request.Email, request.Password);
 
-        var response = new AuthenticationResponse(
-            result.User.Id,
-            result.User.FirstName,
-            result.User.LastName,
-            result.User.Email,
-            result.Token
-        );
+        var response = _mapper.Map<AuthenticationResponse>(result);
 
         return Ok(response);
     }
