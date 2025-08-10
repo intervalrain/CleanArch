@@ -1,4 +1,7 @@
+using CleanArch.Api.Errors;
 using CleanArch.Api.Mappings;
+
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CleanArch.Api;
 
@@ -9,7 +12,7 @@ public static class CleanArchApiModule
         services.AddAutoMapper(cfg => {
             cfg.AddProfile<AuthMappingProfile>();
         });
-        // services.AddScoped<ErrorHandlingMiddleware>();
+        services.AddSingleton<ProblemDetailsFactory, CleanArchProblemDetailsFactory>();
 
         return services;
     }
