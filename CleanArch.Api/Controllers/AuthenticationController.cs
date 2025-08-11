@@ -1,8 +1,8 @@
-using AutoMapper;
 using CleanArch.Application.Authentication.Commands;
 using CleanArch.Application.Authentication.Queries;
 using CleanArch.Contracts.Authentication;
 using CleanArch.Domain.Common.Errors;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,8 +4,8 @@ using CleanArch.Application.Common.Abstractions;
 using CleanArch.Domain.Common.Errors;
 using CleanArch.Domain.Persistence;
 using CleanArch.Domain.Entities;
-using AutoMapper;
 using ErrorOr;
+using MapsterMapper;
 using MediatR;
 
 namespace CleanArch.Application.Authentication.Commands;
