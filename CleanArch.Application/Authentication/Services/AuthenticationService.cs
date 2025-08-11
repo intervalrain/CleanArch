@@ -3,7 +3,6 @@ using AutoMapper;
 using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Application.Authentication.Dtos;
 using CleanArch.Application.Common.Abstractions;
-using CleanArch.Application.Common.Errors;
 using CleanArch.Domain.Common.Errors;
 using CleanArch.Domain.Entities;
 using CleanArch.Domain.Persistence;
@@ -26,7 +25,7 @@ public class AuthenticationService : IAuthenticationService
         _mapper = mapper;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Register(string firstName, string lastName, string email, string password)
+    public async Task<ErrorOr<AuthenticationResult>> RegisterAsync(string firstName, string lastName, string email, string password)
     {
         // 1. Check if user already exists
         if (await _userRepository.GetUserByEmail(email) is not null)
@@ -55,7 +54,7 @@ public class AuthenticationService : IAuthenticationService
         );
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Login(string email, string password)
+    public async Task<ErrorOr<AuthenticationResult>> LoginAsync(string email, string password)
     {
         // 1. Validate the user exists
         if (await _userRepository.GetUserByEmail(email) is not User user)

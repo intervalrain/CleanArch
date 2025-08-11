@@ -3,8 +3,6 @@ using AutoMapper;
 using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Contracts.Authentication;
 
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Api.Controllers;
@@ -24,7 +22,7 @@ public class AuthenticationController : ApiController
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var result = await _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
+        var result = await _authenticationService.RegisterAsync(request.FirstName, request.LastName, request.Email, request.Password);
 
         return result.Match(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
@@ -35,7 +33,7 @@ public class AuthenticationController : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var result = await _authenticationService.Login(request.Email, request.Password);
+        var result = await _authenticationService.LoginAsync(request.Email, request.Password);
 
         return result.Match(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
