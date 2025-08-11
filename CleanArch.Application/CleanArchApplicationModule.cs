@@ -13,7 +13,8 @@ public static class CleanArchApplicationModule
         services.AddAutoMapper(cfg => {
             cfg.AddProfile<UserMappingProfile>();
         });
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IAuthenticationQueryService, AuthenticationQueryService>();
+        services.AddScoped<IAuthenticationCommandService, AuthenticationCommandService>();
 
         return services;
     }
