@@ -1,3 +1,5 @@
+[繁體中文](README_zh.md) | English
+
 # CleanArch - Clean Architecture Study Project
 
 A .NET 9 Clean Architecture implementation for authentication services, following the principles from [Amantinband's Clean Architecture template](https://github.com/amantinband/clean-architecture).

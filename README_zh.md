@@ -1,3 +1,5 @@
+繁體中文 | [English](README.md)
+
 # CleanArch - 乾淨架構學習專案
 
 一個基於 .NET 9 的乾淨架構實現，專注於身份驗證服務，遵循 [Amantinband 乾淨架構模板](https://github.com/amantinband/clean-architecture) 的原則。
