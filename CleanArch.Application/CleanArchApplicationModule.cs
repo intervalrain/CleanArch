@@ -1,6 +1,6 @@
 using CleanArch.Application.Authentication;
-using CleanArch.Application.Authentication.Abstractions;
-using CleanArch.Application.Authentication.Services;
+
+using MediatR;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,9 +13,9 @@ public static class CleanArchApplicationModule
         services.AddAutoMapper(cfg => {
             cfg.AddProfile<UserMappingProfile>();
         });
-        services.AddScoped<IAuthenticationQueryService, AuthenticationQueryService>();
-        services.AddScoped<IAuthenticationCommandService, AuthenticationCommandService>();
 
+        services.AddMediatR(typeof(CleanArchApplicationModule).Assembly);
+        
         return services;
     }
 }

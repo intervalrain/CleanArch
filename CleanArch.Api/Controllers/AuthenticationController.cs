@@ -1,8 +1,9 @@
 using AutoMapper;
-using CleanArch.Application.Authentication.Abstractions;
+using CleanArch.Application.Authentication.Commands;
+using CleanArch.Application.Authentication.Queries;
 using CleanArch.Contracts.Authentication;
 using CleanArch.Domain.Common.Errors;
-using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Api.Controllers;
@@ -10,21 +11,20 @@ namespace CleanArch.Api.Controllers;
 [Route("auth")]
 public class AuthenticationController : ApiController
 {
-    private readonly IAuthenticationQueryService _authenticationQueryService;
-    private readonly IAuthenticationCommandService _authenticationCommandService;
+    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
 
-    public AuthenticationController(IAuthenticationQueryService authenticationQueryService, IAuthenticationCommandService authenticationCommandService, IMapper mapper)
+    public AuthenticationController(IMediator mediator, IMapper mapper)
     {
-        _authenticationQueryService = authenticationQueryService;
-        _authenticationCommandService = authenticationCommandService;
+        _mediator = mediator;
         _mapper = mapper;
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var result = await _authenticationCommandService.RegisterAsync(request.FirstName, request.LastName, request.Email, request.Password);
+        var command = _mapper.Map<RegisterCommand>(request);
+        var result = await _mediator.Send(command);
 
         return result.Match(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
@@ -35,7 +35,8 @@ public class AuthenticationController : ApiController
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var result = await _authenticationQueryService.LoginAsync(request.Email, request.Password);
+        var query = _mapper.Map<LoginQuery>(request);
+        var result = await _mediator.Send(query);
 
         if (result.IsError && result.FirstError == Errors.Authentication.InvalidCredentials)
         {
