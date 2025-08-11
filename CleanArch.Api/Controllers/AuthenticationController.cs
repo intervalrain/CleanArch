@@ -2,8 +2,13 @@ using AutoMapper;
 
 using CleanArch.Application.Authentication.Abstractions;
 using CleanArch.Contracts.Authentication;
+using CleanArch.Domain.Common.Errors;
+
+using ErrorOr;
 
 using Microsoft.AspNetCore.Mvc;
+
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CleanArch.Api.Controllers;
 
@@ -34,6 +39,14 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var result = await _authenticationService.LoginAsync(request.Email, request.Password);
+
+        if (result.IsError && result.FirstError == Errors.Authentication.InvalidCredentials)
+        {
+            return Problem(
+                statusCode: StatusCodes.Status401Unauthorized,
+                title: result.FirstError.Description
+            );
+        }
 
         return result.Match(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),

@@ -1,5 +1,9 @@
 using System.Diagnostics;
 
+using CleanArch.Api.Common.Http;
+
+using ErrorOr;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -58,7 +62,11 @@ public class CleanArchProblemDetailsFactory : ProblemDetailsFactory
             problemDetails.Extensions["traceId"] = traceId;
         }
 
-        problemDetails.Extensions.Add("customProperty", "customValue");
+        var errors = httpContext?.Items[HttpContextItemKeys.Errors] as List<Error>;
+        if (errors != null)
+        {
+            problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code).ToArray());
+        }
     }
 
 

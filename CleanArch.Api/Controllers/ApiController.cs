@@ -1,3 +1,5 @@
+using CleanArch.Api.Common.Http;
+
 using ErrorOr;
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +12,8 @@ public class ApiController : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)
     {
+        HttpContext.Items[HttpContextItemKeys.Errors] = errors;
+
         var firstError = errors[0];
 
         var statusCode = firstError.Type switch
