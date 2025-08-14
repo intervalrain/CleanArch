@@ -8,7 +8,6 @@ public static class CleanArchApplicationModule
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        UserMappingConfig.Configure();
         services.AddMediatR(typeof(CleanArchApplicationModule).Assembly);
         
         return services;
