@@ -4,11 +4,12 @@ using CleanArch.Contracts.Authentication;
 using CleanArch.Domain.Common.Errors;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Api.Controllers;
 
-[Route("auth")]
+[AllowAnonymous]
 public class AuthenticationController : ApiController
 {
     private readonly IMediator _mediator;

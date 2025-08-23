@@ -1,4 +1,4 @@
 @host=http://localhost:5087
 
-GET {{host}}/dinners
+GET {{host}}/api/dinners
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhODRiMWViOC1kNzg5LTRiN2MtYTZjMy1mYjdkOTAwMGEwNTQiLCJnaXZlbl9uYW1lIjoiUmFpbiIsImZhbWlseV9uYW1lIjoiSHUiLCJqdGkiOiJlOGE4N2IyOC1hNjg3LTRkN2QtYjc0My0wNDkwMTYwOGVmN2YiLCJleHAiOjE3NTU5NzI3NzIsImlzcyI6IkNsZWFuQXJjaCIsImF1ZCI6IkNsZWFuQXJjaCJ9.frvG_-C8M-M5F5slFlen01yx2RMeH16KttFpEJkQMpc
