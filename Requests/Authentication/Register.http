@@ -9,3 +9,15 @@ Content-Type: application/json
   "email": "rain.hu@advantech.com",
   "password": "1q2w3E*"
 }
+
+###
+
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "",
+  "email": "rain.hu@advantech.com",
+  "password": "1q2w3E*"
+}

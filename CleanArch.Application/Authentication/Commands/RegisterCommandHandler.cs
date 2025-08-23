@@ -7,6 +7,7 @@ using CleanArch.Domain.Entities;
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using FluentValidation;
 
 namespace CleanArch.Application.Authentication.Commands;
 
@@ -15,6 +16,17 @@ public record RegisterCommand(
     string LastName,
     string Email,
     string Password) : IRequest<ErrorOr<AuthenticationResult>>;
+
+public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+{
+    public RegisterCommandValidator()
+    {
+        RuleFor(x => x.FirstName).NotEmpty();
+        RuleFor(x => x.LastName).NotEmpty();
+        RuleFor(x => x.Email).NotEmpty();
+        RuleFor(x => x.Password).NotEmpty();
+    }
+}
 
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {
