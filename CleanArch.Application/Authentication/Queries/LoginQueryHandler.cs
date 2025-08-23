@@ -6,12 +6,22 @@ using CleanArch.Domain.Entities;
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using FluentValidation;
 
 namespace CleanArch.Application.Authentication.Queries;
 
 public record LoginQuery(
     string Email,
     string Password) : IRequest<ErrorOr<AuthenticationResult>>;
+
+public class LoginQueryValidator : AbstractValidator<LoginQuery>
+{
+    public LoginQueryValidator()
+    {
+        RuleFor(x => x.Email).NotEmpty().WithMessage("'Email' must not be empty");
+        RuleFor(x => x.Password).NotEmpty().WithMessage("'Password' must not be empty");
+    }
+}
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
