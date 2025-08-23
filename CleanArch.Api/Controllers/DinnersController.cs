@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanArch.Api.Controllers;
 
 [Route("[controller]")]
-public class DinnerController : ApiController
+public class DinnersController : ApiController
 {
     [HttpGet]
     public IActionResult ListDinners()
