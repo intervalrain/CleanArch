@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Api.Controllers;
 
 [Route("[controller]")]
+[Authorize]
 public class DinnersController : ApiController
 {
     [HttpGet]
