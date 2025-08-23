@@ -1,0 +1,30 @@
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Application Layer Dependencies -->
+    <PackageVersion Include="FluentValidation" Version="12.0.0" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageVersion Include="Mapster" Version="7.4.0" />
+    <PackageVersion Include="MediatR" Version="11.1.0" />
+    <PackageVersion Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.8" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.13.1" />
+    
+    <!-- Infrastructure Layer Dependencies -->
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.8" />
+    
+    <!-- API Layer Dependencies -->
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.3" />
+    
+    <!-- Domain Layer Dependencies -->
+    <PackageVersion Include="ErrorOr" Version="2.0.1" />
+  </ItemGroup>
+
+</Project>
