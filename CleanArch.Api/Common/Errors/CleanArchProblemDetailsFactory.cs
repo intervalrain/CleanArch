@@ -1,9 +1,6 @@
 using System.Diagnostics;
-
 using CleanArch.Api.Common.Http;
-
 using ErrorOr;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -14,10 +11,14 @@ namespace CleanArch.Api.Common.Errors;
 public class CleanArchProblemDetailsFactory : ProblemDetailsFactory
 {
     private readonly ApiBehaviorOptions _options;
+    private readonly Action<ProblemDetailsContext>? _configure;
 
-    public CleanArchProblemDetailsFactory(IOptions<ApiBehaviorOptions> options)
+    public CleanArchProblemDetailsFactory(
+        IOptions<ApiBehaviorOptions> options,
+        IOptions<ProblemDetailsOptions>? problemDetailsOptions = null)
     {
         _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
+        _configure = problemDetailsOptions?.Value?.CustomizeProblemDetails;
     }
 
     public string? TraceId { get; set; }
@@ -67,6 +68,8 @@ public class CleanArchProblemDetailsFactory : ProblemDetailsFactory
         {
             problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code).ToArray());
         }
+
+        _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
     }
 
 
@@ -79,7 +82,26 @@ public class CleanArchProblemDetailsFactory : ProblemDetailsFactory
         string? detail = null,
         string? instance = null)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(modelStateDictionary);
+
+        statusCode ??= 400;
+
+        var problemDetails = new ValidationProblemDetails(modelStateDictionary)
+        {
+            Status = statusCode,
+            Type = type,
+            Detail = detail,
+            Instance = instance
+        };
+
+        if (title != null)
+        {
+            problemDetails.Title = title;
+        }
+
+        ApplyProblemDetailsDefaults(httpContext, problemDetails, statusCode.Value);
+
+        return problemDetails;
     }
 
 }

@@ -26,7 +26,7 @@ public class ApiController : ControllerBase
 
         return Problem(
             statusCode: statusCode,
-            title: firstError.Description
+            detail: string.Join('\n', errors.Select(err => err.Description))
         );
     }
 }
